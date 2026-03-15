@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="David Thongam — Frontend Developer & UI/UX Designer based in Imphal, Manipur. Crafting beautiful, functional web experiences with clean code and thoughtful design.">
+<meta name="author" content="David Thongam">
+<meta property="og:title" content="David Thongam — Frontend Developer">
+<meta property="og:description" content="Frontend Developer & UI/UX Designer crafting beautiful, functional web experiences.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="David Thongam — Frontend Developer">
+<meta name="twitter:description" content="Frontend Developer & UI/UX Designer crafting beautiful, functional web experiences.">
 <title>David Thongam — Frontend Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -34,11 +42,15 @@ body {
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
-  cursor: none;
 }
 
 /* ───────── CUSTOM CURSOR (LIQUID) ───────── */
-* { cursor: none !important; }
+@media (hover: hover) and (pointer: fine) {
+  * { cursor: none !important; }
+}
+@media (hover: none) {
+  #cur-dot, #cur-canvas, #exp-canvas { display: none !important; }
+}
 
 #cur-dot {
   position: fixed;
@@ -179,6 +191,13 @@ nav {
 .nav-links a.active { color: var(--crimson-glow); }
 .nav-cta { display: flex; align-items: center; gap: 8px; padding: 8px 20px; background: var(--crimson); border-radius: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: #fff; transition: background 0.2s, box-shadow 0.2s; }
 .nav-cta:hover { background: var(--crimson-b); box-shadow: 0 0 24px rgba(196,23,74,0.5); }
+
+/* ───────── MOBILE NAV TOGGLE ───────── */
+.nav-toggle { display: none; background: none; border: none; padding: 8px; flex-direction: column; gap: 5px; z-index: 1001; }
+.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+.nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
 /* ───────── SECTIONS ───────── */
 section { position: relative; z-index: 1; min-height: 100vh; display: flex; align-items: center; padding: 120px 48px 80px; }
@@ -390,7 +409,11 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
   footer { padding: 24px 28px; }
 }
 @media (max-width: 640px) {
-  .nav-links { display: none; }
+  .nav-links { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(8,3,10,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); flex-direction: column; padding: 20px 28px; gap: 4px; border-bottom: 1px solid rgba(155,14,53,0.2); }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 12px 14px; font-size: 14px; }
+  .nav-toggle { display: flex; }
+  .nav-cta { display: none; }
   .projects-grid, .services-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .hero-stats { gap: 20px; }
@@ -458,6 +481,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Hire Me →</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- ░░ HOME ░░ -->
@@ -472,13 +496,13 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
 
         <div class="hero-stats">
           <div><div class="hero-stat-num">1<sup>+</sup></div><div class="hero-stat-label">Years XP</div></div>
-          <div><div class="hero-stat-num">5<sup>+</sup></div><div class="hero-stat-label">Projects</div></div>
+          <div><div class="hero-stat-num">3<sup>+</sup></div><div class="hero-stat-label">Projects</div></div>
           <div><div class="hero-stat-num">1<sup>+</sup></div><div class="hero-stat-label">Services</div></div>
         </div>
 
         <div class="hero-btns">
           <a href="#contact" class="btn-primary">→ Hire Me</a>
-          <a href="#" class="btn-secondary">⬇ Download CV</a>
+          <a href="mailto:dth3315@email.com?subject=CV%20Request" class="btn-secondary">✉ Request CV</a>
         </div>
         <div class="social-row">
           <span class="social-label">Find me:</span>
@@ -569,7 +593,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
       <div class="projects-head-left">
         <div class="section-eyebrow">Featured Work</div>
         <h2 class="section-title" style="font-size:clamp(26px,4vw,42px);">Recent <em style="color:var(--crimson-glow);font-style:normal">Projects</em></h2>
-        <p class="projects-count">// 05 selected works · 2024–2025</p>
+        <p class="projects-count">// 03 selected works · 2024–2025</p>
       </div>
     </div>
 
@@ -583,7 +607,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
           </div>
         </div>
         <div class="project-body">
-          <div class="project-num">01 / 05</div>
+          <div class="project-num">01 / 03</div>
           <div class="project-title">Shoe E-Commerce Website</div>
           <p class="project-desc">Modern online store with product filtering, cart management, etc .with premium animations.</p>
           <div class="project-tags"><span class="project-tag">HTML</span><span class="project-tag">CSS</span><span class="project-tag">JavaScript</span></div>
@@ -603,7 +627,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
           </div>
         </div>
         <div class="project-body">
-          <div class="project-num">02 / 05</div>
+          <div class="project-num">02 / 03</div>
           <div class="project-title">Portfolio Website</div>
           <p class="project-desc">Personal portfolio showcasing design and development projects with smooth interactions.</p>
           <div class="project-tags"><span class="project-tag">HTML</span><span class="project-tag">CSS</span><span class="project-tag">Bootstrap</span></div>
@@ -623,7 +647,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
           </div>
         </div>
         <div class="project-body">
-          <div class="project-num">03 / 05</div>
+          <div class="project-num">03 / 03</div>
           <div class="project-title">Poloroid Studio</div>
           <p class="project-desc">Turn your everyday photos into authentic instant film prints.</p>
           <div class="project-tags"><span class="project-tag">HTML</span><span class="project-tag">CSS</span><span class="project-tag">API</span></div>
@@ -634,45 +658,6 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
         </div>
       </div>
 
-      <!-- Project 4 -->
-      <div class="project-card reveal" style="transition-delay:0.08s">
-        <div class="project-thumb">
-          <img src="https://via.placeholder.com/600x400/12040a/e8245f?text=Project+4" alt="Task Manager Project" class="project-img">
-          <div class="project-thumb-overlay">
-            <a href="YOUR_DEMO_LINK_4" target="_blank" class="project-thumb-cta">View Project →</a>
-          </div>
-        </div>
-        <div class="project-body">
-          <div class="project-num">04 / 05</div>
-          <div class="project-title">Task Manager</div>
-          <p class="project-desc">Clean and functional task manager with drag-and-drop reordering and local storage persistence.</p>
-          <div class="project-tags"><span class="project-tag">JS</span><span class="project-tag">CSS</span></div>
-          <div class="project-links">
-            <a href="YOUR_GITHUB_LINK_4" target="_blank" class="btn-sm github"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="YOUR_DEMO_LINK_4" target="_blank" class="btn-sm demo">▶ Demo</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 5 -->
-      <div class="project-card reveal" style="transition-delay:0.16s">
-        <div class="project-thumb">
-          <img src="https://via.placeholder.com/600x400/12040a/e8245f?text=Project+5" alt="Analytics Dashboard Project" class="project-img">
-          <div class="project-thumb-overlay">
-            <a href="YOUR_DEMO_LINK_5" target="_blank" class="project-thumb-cta">View Project →</a>
-          </div>
-        </div>
-        <div class="project-body">
-          <div class="project-num">05 / 05</div>
-          <div class="project-title">Analytics Dashboard</div>
-          <p class="project-desc">Interactive data dashboard with charts, filters, and real-time statistics visualization.</p>
-          <div class="project-tags"><span class="project-tag">JS</span><span class="project-tag">Chart.js</span></div>
-          <div class="project-links">
-            <a href="YOUR_GITHUB_LINK_5" target="_blank" class="btn-sm github"><i class="fa-brands fa-github"></i> GitHub</a>
-            <a href="YOUR_DEMO_LINK_5" target="_blank" class="btn-sm demo">▶ Demo</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -750,7 +735,9 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
 
       <div class="reveal" style="transition-delay:0.18s">
         <!-- UPDATED NETLIFY FORM -->
-        <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true">
+        <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact">
+          <p class="hidden-field" style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
           <div class="form-row">
             <div class="form-group"><label class="form-label">Your Name</label><input type="text" name="name" class="form-input" placeholder="John Doe" required></div>
             <div class="form-group"><label class="form-label">Email Address</label><input type="email" name="email" class="form-input" placeholder="john@example.com" required></div>
@@ -758,6 +745,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
           <div class="form-group"><label class="form-label">Subject</label><input type="text" name="subject" class="form-input" placeholder="Project Inquiry" required></div>
           <div class="form-group"><label class="form-label">Message</label><textarea name="message" class="form-textarea" placeholder="Tell me about your project..." required></textarea></div>
           <button type="submit" class="form-submit" id="submitBtn">Send Message →</button>
+          <div class="form-error" id="formError" style="display:none;color:#ff4d6a;font-size:14px;margin-top:10px;text-align:center;">Something went wrong. Please try again or email directly.</div>
         </form>
       </div>
     </div>
@@ -959,41 +947,44 @@ const contactForm = document.getElementById('contactForm');
 const submitBtn = document.getElementById('submitBtn');
 const successModal = document.getElementById('successModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
+const formError = document.getElementById('formError');
 
 if (contactForm) {
   contactForm.addEventListener('submit', function(e) {
-    e.preventDefault(); // Stop Netlify from redirecting the page
-    
+    e.preventDefault();
+
+    // Hide any previous error
+    formError.style.display = 'none';
+
     // Change button text to show it's working
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin"></i>';
     submitBtn.style.opacity = '0.7';
-    submitBtn.style.pointerEvents = 'none';
+    submitBtn.disabled = true;
 
     // Gather form data
     const formData = new FormData(contactForm);
-    
+
     // Send data to Netlify via AJAX (fetch)
     fetch('/', {
       method: 'POST',
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(formData).toString()
     })
-    .then(() => {
-      // 1. Show the success popup
+    .then(function(response) {
+      if (!response.ok) throw new Error('Network response was not ok');
+      // Show the success popup
       successModal.classList.add('show');
-      // 2. Clear out the form inputs
+      // Clear out the form inputs
       contactForm.reset();
-      // 3. Put the button text back to normal
-      submitBtn.innerHTML = originalBtnText;
-      submitBtn.style.opacity = '1';
-      submitBtn.style.pointerEvents = 'auto';
     })
-    .catch((error) => {
-      alert("Oops! There was a problem submitting your form. Please try again.");
+    .catch(function() {
+      formError.style.display = 'block';
+    })
+    .finally(function() {
       submitBtn.innerHTML = originalBtnText;
       submitBtn.style.opacity = '1';
-      submitBtn.style.pointerEvents = 'auto';
+      submitBtn.disabled = false;
     });
   });
 }
@@ -1009,6 +1000,22 @@ if (closeModalBtn) {
     if (e.target === successModal) {
       successModal.classList.remove('show');
     }
+  });
+}
+/* ── Mobile nav toggle ── */
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.querySelector('.nav-links');
+if (navToggle) {
+  navToggle.addEventListener('click', function() {
+    navToggle.classList.toggle('active');
+    navLinks.classList.toggle('open');
+  });
+  // Close mobile nav when a link is clicked
+  navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navToggle.classList.remove('active');
+      navLinks.classList.remove('open');
+    });
   });
 }
 </script>
