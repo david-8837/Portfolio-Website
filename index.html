@@ -36,6 +36,12 @@
 
 html { scroll-behavior: smooth; }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
@@ -48,8 +54,9 @@ body {
 @media (hover: hover) and (pointer: fine) {
   * { cursor: none !important; }
 }
-@media (hover: none) {
+@media (hover: none), (pointer: coarse) {
   #cur-dot, #cur-canvas, #exp-canvas { display: none !important; }
+  * { cursor: auto !important; }
 }
 
 #cur-dot {
@@ -409,6 +416,9 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
   footer { padding: 24px 28px; }
 }
 @media (max-width: 640px) {
+  html, body { width: 100vw; overflow-x: hidden; }
+  section { padding: 100px 20px 60px; }
+  nav { padding: 0 20px; }
   .nav-links { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(8,3,10,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); flex-direction: column; padding: 20px 28px; gap: 4px; border-bottom: 1px solid rgba(155,14,53,0.2); }
   .nav-links.open { display: flex; }
   .nav-links a { padding: 12px 14px; font-size: 14px; }
@@ -417,6 +427,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
   .projects-grid, .services-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .hero-stats { gap: 20px; }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
 }
 </style>
 </head>
@@ -734,10 +745,10 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
       </div>
 
       <div class="reveal" style="transition-delay:0.18s">
-        <!-- UPDATED NETLIFY FORM -->
-        <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="contact">
-          <p class="hidden-field" style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+        <!-- UPDATED FORM FOR VERCEL (Web3Forms) -->
+        <form class="contact-form" id="contactForm">
+          <input type="hidden" name="access_key" value="c57e738d-9c88-4aa7-b447-265eda3eb001">
+          
           <div class="form-row">
             <div class="form-group"><label class="form-label">Your Name</label><input type="text" name="name" class="form-input" placeholder="John Doe" required></div>
             <div class="form-group"><label class="form-label">Email Address</label><input type="email" name="email" class="form-input" placeholder="john@example.com" required></div>
@@ -771,6 +782,9 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
 <script>
 /* ── Liquid Custom Cursor ── */
 (function() {
+  const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!isDesktop) return;
+
   const dot  = document.getElementById('cur-dot');
   const cc   = document.getElementById('cur-canvas');
   const cctx = cc.getContext('2d');
@@ -826,6 +840,9 @@ footer { position: relative; z-index: 1; border-top: 1px solid rgba(155,14,53,0.
 
 /* ── Elegant Liquid Ripple on Click ── */
 (function() {
+  const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!isDesktop) return;
+
   const EXP = document.getElementById('exp-canvas');
   const ECTX = EXP.getContext('2d');
   EXP.width = window.innerWidth; EXP.height = window.innerHeight;
@@ -965,13 +982,12 @@ if (contactForm) {
     // Gather form data
     const formData = new FormData(contactForm);
 
-    // Send data to Netlify via AJAX (fetch)
-    fetch('/', {
+    // Send data to Web3Forms API
+    fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData).toString()
+      body: formData
     })
-    .then(function(response) {
+    .then(async function(response) {
       if (!response.ok) throw new Error('Network response was not ok');
       // Show the success popup
       successModal.classList.add('show');
